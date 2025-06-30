@@ -6,7 +6,7 @@ export const Route = createFileRoute("/")({
 function Home() {
   return (
     <div className="p-2">
-      <h1>I am a homepage for the tracker</h1>
+      <h1>I am a homepage!</h1>
     </div>
   );
 }
