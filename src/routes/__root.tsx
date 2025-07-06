@@ -16,6 +16,7 @@ import {
   UserButton,
 } from "@clerk/tanstack-react-start";
 import { ChartColumnBigIcon } from "lucide-react";
+import { Toaster } from "sonner";
 
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 //import { createServerFn } from "@tanstack/react-start";
@@ -164,6 +165,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
           </SignedIn>
         </nav>
         {children}
+        <Toaster />
         <TanStackRouterDevtools position="bottom-right" />
 
         <Scripts />

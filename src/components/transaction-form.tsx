@@ -23,6 +23,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "./ui/calendar";
 import { cn } from "@/lib/utils";
+import { categoriesTable } from "@/db/schema";
 
 export const transactionFormSchema = z.object({
   transactionType: z.enum(["income", "expense"]),
@@ -37,11 +38,11 @@ export const transactionFormSchema = z.object({
     .max(300, "Description must contain a maximum of 300 characters"),
 });
 export function TransactionForm({
-  //categories,
+  categories,
   onSubmit,
   defaultValues,
 }: {
-  //categories: (typeof categoriesTable.$inferSelect)[];
+  categories: (typeof categoriesTable.$inferSelect)[];
   onSubmit: (data: z.infer<typeof transactionFormSchema>) => Promise<void>;
   defaultValues?: {
     transactionType: "income" | "expense";
@@ -59,17 +60,25 @@ export function TransactionForm({
       categoryId: 0,
       description: "",
       transactionDate: new Date(),
-      //...defaultValues,
+      ...defaultValues,
     },
   });
 
-  // const handleSubmit= (data=z.infer<typeof transactionFormSchema>) =>{
-  // console.log({data})
-  // }
+  const filteredCategories = categories.filter(
+    (cat) => cat.type === form.watch("transactionType")
+  );
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
+        {/* <form
+        onSubmit={form.handleSubmit(async (data) => {
+          console.log("Submitted data:", data);
+          if (onSubmit) {
+            await onSubmit(data);
+          }
+        })}
+      > */}
         <fieldset
           disabled={form.formState.isSubmitting}
           className="grid grid-cols-2 gap-y-5 gap-x-2"
@@ -83,7 +92,7 @@ export function TransactionForm({
                   <FormLabel>Transaction Type</FormLabel>
                   <FormControl>
                     <Select value={field.value} onValueChange={field.onChange}>
-                      <SelectTrigger>
+                      <SelectTrigger className="w-full">
                         <SelectValue placeholder="Transaction type" />
                       </SelectTrigger>
                       <SelectContent>
@@ -97,7 +106,7 @@ export function TransactionForm({
               );
             }}
           />
-          {/* <FormField
+          <FormField
             control={form.control}
             name="categoryId"
             render={({ field }) => {
@@ -109,7 +118,7 @@ export function TransactionForm({
                       value={field.value.toString()}
                       onValueChange={field.onChange}
                     >
-                      <SelectTrigger>
+                      <SelectTrigger className="w-full">
                         <SelectValue placeholder="Category" />
                       </SelectTrigger>
                       <SelectContent>
@@ -128,7 +137,7 @@ export function TransactionForm({
                 </FormItem>
               );
             }}
-          /> */}
+          />
           <FormField
             control={form.control}
             name="transactionDate"
