@@ -147,13 +147,16 @@ export function AllTransactions({
                     >
                       <Link
                         onClick={() => {
+                          //console.log(transaction.id);
                           router.clearCache({
+                            //router caches automatically, clear for this one route
                             filter: (route) =>
                               route.pathname !==
                               `/dashboard/transactions/${transaction.id}`,
                           });
                         }}
-                        to="/dashboard/transactions"
+                        to="/dashboard/transactions/$transactionId"
+                        params={{ transactionId: String(transaction.id) }}
                       >
                         <PencilIcon />
                       </Link>

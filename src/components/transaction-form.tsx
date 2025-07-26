@@ -68,6 +68,8 @@ export function TransactionForm({
     (cat) => cat.type === form.watch("transactionType")
   );
 
+  console.log(defaultValues);
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
